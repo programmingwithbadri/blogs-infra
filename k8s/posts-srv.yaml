@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service # used to expose a pod
+metadata:
+  name: posts-srv
+spec:
+  type: NodePort # service type
+  selector: # should match the pod label
+    app: posts 
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000 # port number of the current service(node port). This will be exposed outside
+      targetPort: 4000 # port number exposed by our pod(express server port)
