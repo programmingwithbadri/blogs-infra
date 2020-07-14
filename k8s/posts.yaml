@@ -1,0 +1,8 @@
+apiVersion: v1 # Tell K8s which object set we are using
+kind: Pod # Object type
+metadata: # config options for our object(pod)
+  name: posts # Pod name
+spec: # attributes we are going to update to our obj(pod)
+  containers:
+    - name: posts # make a container with name posts
+      image: programmingwithbadri/posts:0.0.1  
