@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment # Deployment object which will create the pods for us. Even restarts if pod stops
+metadata:
+  name: event-bus-depl
+spec:
+  replicas: 1 
+  selector: # select the pod we need to deploy based on label in the template
+    matchLabels:
+      app: event-bus
+  template:
+    metadata:
+      labels:
+        app: event-bus
+    spec:
+      containers:
+        - name: event-bus
+          image: programmingwithbadri/event-bus
