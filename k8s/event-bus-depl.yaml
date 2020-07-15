@@ -15,3 +15,17 @@ spec:
       containers:
         - name: event-bus
           image: programmingwithbadri/event-bus
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus-srv
+spec: # default type: clusterIP
+  selector:
+    app: event-bus
+  ports:
+    - name: event-bus
+      protocol: TCP
+      port: 4005 # port number of the current service(cluster IP service).
+      targetPort: 4005 # port number of our pod(express server port)

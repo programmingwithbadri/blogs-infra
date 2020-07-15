@@ -15,3 +15,16 @@ spec:
       containers:
         - name: posts
           image: programmingwithbadri/posts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-clusterip-srv # distinguish name between the existing nodeport service
+spec: # default type: clusterIP
+  selector:
+    app: posts
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000 # port number of the current service(cluster IP service).
+      targetPort: 4000 # port number of our pod(express server port)
