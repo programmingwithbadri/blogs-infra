@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment # Deployment object which will create the pods for us. Even restarts if pod stops
+metadata:
+  name: query-depl
+spec:
+  replicas: 1 
+  selector: # select the pod we need to deploy based on label in the template
+    matchLabels:
+      app: query
+  template:
+    metadata:
+      labels:
+        app: query
+    spec:
+      containers:
+        - name: query
+          image: programmingwithbadri/query
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-srv
+spec: # default type: clusterIP
+  selector:
+    app: query
+  ports:
+    - name: query
+      protocol: TCP
+      port: 4002 # port number of the current service(cluster IP service).
+      targetPort: 4002 # port number of our pod(express server port)
