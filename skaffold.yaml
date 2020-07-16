@@ -1,0 +1,60 @@
+# This will be used for dev purpose. - Skaffold dev
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests: # when any file change, scaffold will automatically apply it in k8s cluster
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: programmingwithbadri/posts-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          # whenever the file in this pattern changes, scaffold will update the pod
+          - src: 'src/**/*.js' # if not match, scaffold will rebuild the docker image
+            dest: .
+    - image: programmingwithbadri/comments
+      context: comments # directory
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: programmingwithbadri/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: programmingwithbadri/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: programmingwithbadri/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: programmingwithbadri/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
